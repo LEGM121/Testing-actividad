@@ -1,0 +1,15 @@
+TALLER DE PRUEBAS UNITARIAS - UNIVERSIDAD DE SABANA
+====================================================
+
+Integrantes del Equipo:
+- LEGM121 (Estudiante)
+
+Período: Mayo 2026
+Docente: Universidad de Sabana - Cátedra de Testing
+
+Descripción del Taller:
+Implementación de pruebas unitarias con Test-Driven Development (TDD),
+Behavior-Driven Development (BDD), patrón AAA (Arrange-Act-Assert),
+clases de equivalencia, valores límite y cobertura de código con JaCoCo.
+
+Dominio: Gestión de Registro de Personas con validaciones de edad.
