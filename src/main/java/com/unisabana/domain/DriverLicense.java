@@ -1,21 +1,21 @@
 package com.unisabana.domain;
 
 /**
- * DriverLicense: Clase de dominio para validar elegibilidad de licencia de conducción en Colombia.
- * Implementa reglas de negocio colombianas para obtener licencia de conducir CARROS.
+ * DriverLicense: Clase de dominio para validar elegibilidad de licencia de conducción.
+ * Implementa reglas de negocio colombianas para obtener licencia de conducir.
  * 
- * REGLAS COLOMBIA PARA CARROS:
- * - Edad mínima conducción regular: 16 años
- * - Edad mínima servicio público (taxi, uber): 23 años
- * - Edad máxima: 80 años (renovación requerida después)
+ * REGLAS COLOMBIA:
+ * - Edad mínima: 16 años (conducción normal)
+ * - Edad mínima servicio público: 23 años (buses, taxis, uber)
+ * - Edad máxima renovación: 80 años (con restricciones)
  * - Discapacidad visual severa: NO puede conducir
- * - Antecedentes penales graves: NO puede obtener licencia
+ * - Antecedentes penales: NO puede obtener
  */
 public class DriverLicense {
     
     // Constantes - Edades según normativa colombiana
     private static final int MIN_AGE_REGULAR = 16;           // Conducción normal de carros
-    private static final int MIN_AGE_PUBLIC_SERVICE = 23;    // Servicio público (taxi, uber)
+    private static final int MIN_AGE_PUBLIC_SERVICE = 23;    // Servicio público (taxi, uber, buses)
     private static final int MAX_AGE = 80;                   // Edad máxima legal
     
     // Identificación
@@ -36,14 +36,6 @@ public class DriverLicense {
     
     /**
      * Constructor para solicitud de licencia de conducción de carros.
-     * 
-     * @param documentId Número de cédula
-     * @param fullName Nombre completo
-     * @param age Edad en años
-     * @param hasSevereEyeDisability ¿Tiene discapacidad visual severa?
-     * @param hasHearingDisability ¿Tiene discapacidad auditiva?
-     * @param seriousCriminalRecords Número de antecedentes penales graves
-     * @param licenseType REGULAR o PUBLIC_SERVICE
      */
     public DriverLicense(String documentId, String fullName, int age,
                         boolean hasSevereEyeDisability, boolean hasHearingDisability,
@@ -65,13 +57,12 @@ public class DriverLicense {
     }
     
     /**
-     * REGLA PRINCIPAL: ¿Es elegible para obtener licencia de conducción de carros?
+     * REGLA PRINCIPAL: ¿Es elegible para obtener licencia de conducción?
      * 
-     * Requisitos que DEBE cumplir:
-     * 1. Edad mínima: 16 años (regular) o 23 años (servicio público)
-     * 2. Edad máxima: 80 años
-     * 3. NO tener discapacidad visual severa
-     * 4. NO tener antecedentes penales graves
+     * Requisitos:
+     * 1. Edad válida según tipo de licencia
+     * 2. NO tener discapacidad visual severa
+     * 3. NO tener antecedentes penales graves
      */
     public boolean isEligibleForLicense() {
         // Validar edad según tipo de licencia
@@ -79,7 +70,7 @@ public class DriverLicense {
             return false;
         }
         
-        // NO puede tener discapacidad ocular severa (RIESGO para conducir carros)
+        // NO puede tener discapacidad ocular severa
         if (hasSevereEyeDisability) {
             return false;
         }
@@ -94,9 +85,6 @@ public class DriverLicense {
     
     /**
      * Verifica si la edad es válida para el tipo de licencia.
-     * 
-     * REGULAR: 16-80 años
-     * PUBLIC_SERVICE: 23-80 años
      */
     private boolean isAgeValidForLicenseType() {
         if ("REGULAR".equals(licenseType)) {
@@ -115,40 +103,40 @@ public class DriverLicense {
     }
     
     /**
-     * ¿Es mayor de edad para servicio público de carros (23 años)?
+     * ¿Es mayor de edad para servicio público (23 años)?
      */
     public boolean isAdultForPublicService() {
         return age >= MIN_AGE_PUBLIC_SERVICE;
     }
     
     /**
-     * ¿Está dentro del rango de edad máxima (80 años)?
+     * ¿Está dentro del rango de edad máxima?
      */
     public boolean isWithinMaximumAge() {
         return age <= MAX_AGE;
     }
     
     /**
-     * Obtiene la categoría de edad para conducción de carros.
+     * Obtiene la categoría de edad para conducción.
      */
     public String getAgeCategory() {
         if (age < MIN_AGE_REGULAR) {
-            return "TOO_YOUNG";      // < 16 años: NO PUEDE CONDUCIR
+            return "TOO_YOUNG";
         } else if (age < 18) {
-            return "ADOLESCENT";     // 16-17 años: LICENCIA RESTRINGIDA
+            return "ADOLESCENT";
         } else if (age < MIN_AGE_PUBLIC_SERVICE) {
-            return "YOUNG_ADULT";    // 18-22 años: CONDUCCIÓN REGULAR PERMITIDA
+            return "YOUNG_ADULT";
         } else if (age < 65) {
-            return "ADULT";          // 23-64 años: SIN RESTRICCIONES
+            return "ADULT";
         } else if (age <= MAX_AGE) {
-            return "SENIOR";         // 65-80 años: RENOVACIÓN ANUAL REQUERIDA
+            return "SENIOR";
         } else {
-            return "TOO_OLD";        // > 80 años: REQUIERE EVALUACIÓN MÉDICA ESPECIAL
+            return "TOO_OLD";
         }
     }
     
     /**
-     * Calcula cuántos años faltan para poder conducir en servicio público.
+     * Calcula años hasta poder acceder a servicio público.
      */
     public int yearsUntilPublicService() {
         if (age >= MIN_AGE_PUBLIC_SERVICE) {
@@ -158,8 +146,7 @@ public class DriverLicense {
     }
     
     /**
-     * ¿Puede conducir con discapacidad visual?
-     * En Colombia: Discapacidad visual SEVERA impide conducir.
+     * ¿Puede conducir con discapacidad visual severa?
      */
     public boolean canDriveWithEyeDisability() {
         return !hasSevereEyeDisability;
@@ -167,14 +154,13 @@ public class DriverLicense {
     
     /**
      * ¿Puede conducir con discapacidad auditiva?
-     * En Colombia: Discapacidad auditiva PERMITE conducción (con adaptaciones).
      */
     public boolean canDriveWithHearingDisability() {
-        return true; // La discapacidad auditiva no impide conducción
+        return true; // Discapacidad auditiva permite conducción (con adaptaciones)
     }
     
     /**
-     * ¿Tiene antecedentes limpios?
+     * ¿Tiene antecedentes penales limpios?
      */
     public boolean hasCleanCriminalRecord() {
         return seriousCriminalRecords == 0;
@@ -188,15 +174,11 @@ public class DriverLicense {
     }
     
     /**
-     * APRUEBA la licencia si cumple TODOS los requisitos.
-     * @throws IllegalStateException si NO cumple requisitos
+     * APRUEBA la licencia si cumple todos los requisitos.
      */
     public void approveLicense() {
         if (!isEligibleForLicense()) {
-            throw new IllegalStateException(
-                "Solicitante no cumple los requisitos para obtener licencia: " + 
-                getRejectionReason()
-            );
+            throw new IllegalStateException("Solicitante no cumple los requisitos para obtener licencia");
         }
         this.status = "APPROVED";
     }
@@ -204,12 +186,12 @@ public class DriverLicense {
     /**
      * RECHAZA la licencia.
      */
-    public void rejectLicense() {
+    public void rejectLicense(String reason) {
         this.status = "REJECTED";
     }
     
     /**
-     * SUSPENDE la licencia (temporal - ej: multa grave).
+     * SUSPENDE la licencia.
      */
     public void suspendLicense() {
         if ("APPROVED".equals(status)) {
@@ -227,7 +209,7 @@ public class DriverLicense {
     }
     
     /**
-     * Obtiene el motivo específico de rechazo.
+     * Obtiene el motivo de rechazo.
      */
     public String getRejectionReason() {
         if (!isWithinMaximumAge()) {
@@ -240,15 +222,15 @@ public class DriverLicense {
             return "No cumple edad mínima para servicio público (23 años)";
         }
         if (hasSevereEyeDisability) {
-            return "Tiene discapacidad visual severa - Riesgo para conducir";
+            return "Tiene discapacidad visual severa";
         }
         if (seriousCriminalRecords > 0) {
-            return "Tiene " + seriousCriminalRecords + " antecedente(s) penal(es) grave(s)";
+            return "Tiene antecedentes penales graves";
         }
         return "Cumple todos los requisitos";
     }
     
-    // ============ VALIDACIONES PRIVADAS ============
+    // Validaciones privadas
     
     private void validateAge(int age) {
         if (age < 0) {
@@ -261,7 +243,7 @@ public class DriverLicense {
     
     private void validateDocument(String documentId) {
         if (documentId == null || documentId.trim().isEmpty()) {
-            throw new IllegalArgumentException("El número de cédula no puede estar vacío");
+            throw new IllegalArgumentException("El número de documento no puede estar vacío");
         }
     }
     
@@ -276,12 +258,11 @@ public class DriverLicense {
             throw new IllegalArgumentException("El tipo de licencia no puede estar vacío");
         }
         if (!type.matches("REGULAR|PUBLIC_SERVICE")) {
-            throw new IllegalArgumentException("Tipo de licencia inválido: " + type + 
-                                             ". Debe ser REGULAR o PUBLIC_SERVICE");
+            throw new IllegalArgumentException("Tipo de licencia inválido: " + type);
         }
     }
     
-    // ============ GETTERS ============
+    // Getters
     
     public String getDocumentId() {
         return documentId;

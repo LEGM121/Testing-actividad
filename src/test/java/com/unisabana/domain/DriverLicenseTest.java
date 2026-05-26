@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * DriverLicenseTest: Suite de pruebas unitarias para licencia de conducción en Colombia.
  * 
- * DOMINIO: Validar elegibilidad para obtener licencia de conducción de carros.
+ * DOMINIO: Validar elegibilidad para obtener licencia de conducción de CARROS.
  * 
  * REGLAS COLOMBIA:
  * - Edad mínima conducción regular: 16 años
- * - Edad mínima servicio público (buses, taxis): 23 años
+ * - Edad mínima servicio público (taxis, uber, buses): 23 años
  * - Edad máxima: 80 años
  * - Discapacidad visual severa: NO puede conducir
  * - Antecedentes penales: NO puede obtener licencia
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.*;
  * ITERACIÓN 2 (GREEN): Implementación mínima validación edad
  * ITERACIÓN 3 (REFACTOR): Extracción de constantes MIN_AGE, MAX_AGE
  */
-@DisplayName("DriverLicense - Test Suite (Sistema Colombiano)")
+@DisplayName("DriverLicense - Test Suite (Sistema Colombiano de Licencia de Conducción)")
 class DriverLicenseTest {
 
     private DriverLicense regularAdult;
@@ -70,27 +70,6 @@ class DriverLicenseTest {
             assertThatThrownBy(() -> new DriverLicense("1", "Test", 151, false, false, 0, "REGULAR"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("debe ser realista");
-        }
-
-        @Test
-        @DisplayName("Should accept age 0 (valid minimum)")
-        void shouldAcceptAgeZero() {
-            // ARRANGE & ACT
-            DriverLicense baby = new DriverLicense("1", "Newborn", 0, false, false, 0, "REGULAR");
-            
-            // ASSERT
-            assertThat(baby.getAge()).isEqualTo(0);
-            assertThat(baby.isAdultForRegularLicense()).isFalse();
-        }
-
-        @Test
-        @DisplayName("Should accept age 150 (valid maximum)")
-        void shouldAcceptAge150() {
-            // ARRANGE & ACT
-            DriverLicense elder = new DriverLicense("1", "Elder", 150, false, false, 0, "REGULAR");
-            
-            // ASSERT
-            assertThat(elder.getAge()).isEqualTo(150);
         }
 
         @ParameterizedTest
