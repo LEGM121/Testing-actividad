@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Testing Workshop - Universidad de Sabana
 
 ## Descripción del Proyecto
@@ -137,3 +138,7 @@ void shouldThrowExceptionWhenMaritalStatusIsEmpty() {
 
 **Última actualización**: Mayo 2026  
 **Estado**: En desarrollo
+=======
+# Testing-actividad
+Testing-actividad_2
+>>>>>>> 3759de19cf2158e24ea78144fc22daf7942e1646
